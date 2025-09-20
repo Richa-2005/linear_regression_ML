@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
-import pickle
+import joblib
 import pandas as pd
+import os
 
 def add_weighted_score(df):
     weights = {
@@ -18,8 +19,12 @@ def add_weighted_score(df):
     )
     return df
 
-with open("logistic_regression.pkl", "rb") as f:
-    model = pickle.load(f)
+script_dir = os.path.dirname(__file__) 
+model_path = os.path.join(script_dir, '..', 'logistic_regression.pkl')
+
+    # Now, open the file using the full path
+with open(model_path, "rb") as f:
+    model = joblib.load(f)
 
 app = Flask(__name__)
 
